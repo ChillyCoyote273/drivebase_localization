@@ -106,14 +106,12 @@ def main():
     raw_data = load_data()
     times = raw_data['time'].to_numpy()
     accels = raw_data['accel_x'].to_numpy()
-    
-    N = len(accels)
-    frequency_weights = sp.fft.fft(accels)[:N // 2]
-    frequencies = sp.fft.fftfreq(N, times[-1] / len(times))[:N // 2]
 
-    _, (time, frequency_ab) = plt.subplots(2)
-    time.plot(times, accels)
-    frequency_ab.plot(frequencies, 2.0 / N * np.absolute(frequency_weights))
+    delta_ts = np.diff(times) * 1000
+    print(delta_ts.mean())
+    print(delta_ts.std())
+
+    plt.hist(delta_ts, 15)
     plt.show()
 
 
